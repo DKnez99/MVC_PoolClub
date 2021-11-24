@@ -14,6 +14,20 @@ namespace PoolClub.Models.Services
             this.context = context;
         }
 
+        public Reservation AddReservation(Reservation res)
+        {
+            try
+            {
+                context.Reservations.Add(res);
+                context.SaveChanges();
+                return res;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public IEnumerable<Reservation> GetAllReservationsByTable(int id)
         {
             return context.Reservations.Where(r => r.TableId == id);

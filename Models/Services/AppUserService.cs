@@ -17,7 +17,7 @@ namespace PoolClub.Models.Services
         {
             return context.AppUsers;
         }
-        public AppUser GetAppUser(int id)
+        public AppUser GetAppUser(string id)
         {
             return context.AppUsers.Find(id);
         }
@@ -34,7 +34,7 @@ namespace PoolClub.Models.Services
                 return null;
             }
         }
-        public AppUser DeleteAppUser(int id)
+        public AppUser DeleteAppUser(string id)
         {
             AppUser appUser = context.AppUsers.Find(id);
             if (appUser != null)

@@ -8,9 +8,9 @@ namespace PoolClub.Models.Services
     public interface IAppUserService
     {
         public IEnumerable<AppUser> GetAllAppUsers();
-        public AppUser GetAppUser(int id);
+        public AppUser GetAppUser(string id);
         public AppUser AddAppUser(AppUser appUser);
-        public AppUser DeleteAppUser(int id);
+        public AppUser DeleteAppUser(string id);
         public AppUser UpdateAppUser(AppUser appUserChanges);
 
     }

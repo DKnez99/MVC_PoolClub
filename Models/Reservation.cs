@@ -12,8 +12,8 @@ namespace PoolClub.Models
         [Key]
         public int ReservationId { get; set; }
 
-        [Required]
-        public int UserId { get; set; }
+        //[Required]
+        //public int UserId { get; set; }
 
         [Required]
         public int TableId { get; set; }

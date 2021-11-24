@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PoolClub.Models;
 using PoolClub.Models.Services;
 using PoolClub.ViewModels;
 using System;
@@ -19,19 +21,24 @@ namespace PoolClub.Controllers
             this.logger = logger;
             this.appUserService = appUserService;
         }
+
+        [Authorize(Roles ="Staff")]
         public IActionResult Index()
         {
             var model = appUserService.GetAllAppUsers();
             return View(model);
         }
-        public IActionResult Details(int id)
+
+        [Authorize(Roles = "Staff")]
+        public IActionResult Details(string id)
         {
-            UsersDetailsViewModel model = new UsersDetailsViewModel()
+            AppUser appUser = appUserService.GetAppUser(id);
+            if (appUser == null)
             {
-                AppUser = appUserService.GetAppUser(id),
-                PageTitle = "User Details"
-            };
-            return View(model);
+                Response.StatusCode = 404;
+                return View("UserNotFound", id);
+            }
+            return View(appUser);
         }
     }
 }

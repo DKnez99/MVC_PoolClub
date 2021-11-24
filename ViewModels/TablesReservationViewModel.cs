@@ -9,7 +9,7 @@ namespace PoolClub.ViewModels
     public class TablesReservationViewModel
     {
         [Required]
-        public int UserId { get; set; }
+        public string UserEmail { get; set; }
 
         [Required]
         public int TableId { get; set; }

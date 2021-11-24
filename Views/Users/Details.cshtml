@@ -1,25 +1,22 @@
-﻿@model UsersDetailsViewModel
+﻿@model AppUser
 @{
     ViewData["Title"]= "User Details";
 }
 
 <div class="card ">
-    <h4 class="card-header">@Model.PageTitle</h4>
+    <h4 class="card-header">@ViewData["Title"]</h4>
     <div class="card-body">
         <div class="card-text">
-            Id: @Model.AppUser.UserId
+            Id: @Model.Id
         </div>
         <div class="card-text">
-            Name: @Model.AppUser.FirstName @Model.AppUser.LastName
+            Name: @Model.FirstName @Model.LastName
         </div>
         <div class="card-text">
-            Email: @Model.AppUser.Email
+            Email: @Model.Email
         </div>
         <div class="card-text">
-            Phone: @Model.AppUser.PhoneNumber
-        </div>
-        <div class="card-text">
-            Role: @Model.AppUser.RoleId
+            Phone: @Model.PhoneNumber
         </div>
     </div>
 </div>

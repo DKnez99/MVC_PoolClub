@@ -6,22 +6,18 @@
 <table class="table table-striped table-hover">
     <thead>
         <tr>
-            <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone Number</th>
-            <th scope="col">Role</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var appUser in Model)
         {
-            <tr style="cursor:pointer" onclick="window.location = '/Users/Details/@appUser.UserId'">
-                <th scope="row">@appUser.UserId</th>
-                <td>@appUser.FirstName @appUser.LastName</td>
+            <tr style="cursor:pointer" onclick="window.location = '/Users/Details/@appUser.Id'">
+                <th scope="row">@appUser.FirstName @appUser.LastName</th>
                 <td>@appUser.Email</td>
                 <td>@appUser.PhoneNumber</td>
-                <td>@appUser.RoleId</td>
             </tr>
         }
     </tbody>

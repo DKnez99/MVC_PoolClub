@@ -11,7 +11,7 @@
         <img class="card-img-top" src="~/images/PoolTable.png" alt="Pool table picture"></img>
         <div class="card-body">
             <div class="card-title"><h3>Table @table.TableId</h3><hr /><h5>Floor @table.Floor</h5></div>
-            <div class="text-center">
+            <div class="text-center mt-1">
                 <a asp-area="" asp-controller="Tables" asp-action="Reserve" asp-route-ID="@table.TableId" class="btn btn-primary m-1">Make a Reservation</a>
             </div>
         </div>

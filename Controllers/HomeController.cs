@@ -31,36 +31,6 @@ namespace PoolClub.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Register(HomeRegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                AppUser newAppUser = appUserService.AddAppUser(new AppUser()
-                {
-                    Email = model.Email,
-                    Password = model.Password,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    PhoneNumber = model.PhoneNumber,
-                    RoleId = 2  //Visitor role
-                });
-
-                //return RedirectToAction("Details", "Users", new { id = newAppUser.Id });
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View(model);
-            }
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
