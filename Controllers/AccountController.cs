@@ -58,7 +58,8 @@ namespace PoolClub.Controllers
                 {
                     //await signInManager.SignInAsync(user, isPersistent:false);
                     var newlyCreatedUser = await userManager.FindByNameAsync(model.Email);
-                    await userManager.AddToRoleAsync(newlyCreatedUser, "Visitor");      //automatically add new users to visitors visitors
+                    await userManager.AddToRoleAsync(newlyCreatedUser, "Visitor");      //automatically add new users to visitors
+                    TempData["SuccessMsg"] = "New account created. Now you can log in.";
                     return RedirectToAction("Index", "Home");
                 }
                 foreach(var error in result.Errors)
@@ -86,8 +87,8 @@ namespace PoolClub.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
+                    if (!string.IsNullOrEmpty(returnUrl))
+                        return LocalRedirect(returnUrl);
                     else
                         return RedirectToAction("Index", "Home");
                 }

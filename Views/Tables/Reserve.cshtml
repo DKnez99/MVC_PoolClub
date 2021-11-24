@@ -1,53 +1,54 @@
 ﻿@model TablesReservationViewModel
 @{
-    ViewData["Title"] = "Make a reservation";
+    ViewData["Title"] = "Make a reservation for table "+Model.TableId;
 }
-<h1>@ViewData["Title"]</h1>
-<ul>
+@*<ul>
     <li>TableId: @Model.TableId</li>
     <li>UserEmail: @Model.UserEmail</li>
     <li>Date: @Model.Date</li>
     <li>TimeFrom: @Model.TimeFrom</li>
     <li>TimeTo: @Model.TimeTo</li>
-</ul>
+</ul>*@
 
-<form asp-controller="Reserve" asp-action="Tables" method="post">
+<form asp-controller="Tables" asp-action="Reserve" method="post">
     <div class="form-horizontal">
-        <h4>Make a reservation</h4>
+        <h4>@ViewData["Title"]</h4>
+
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <p>TableID: @Model.TableId</p>
-        <p>UserEmail: @Model.UserEmail</p>
+        <input type="hidden" asp-for="TableId" />
+        <input type="hidden" asp-for="UserEmail" />
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="Date" class="col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @id = "datePickerReserveTable" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                <input type="date" asp-for="Date" class="form-control" id="datePickerReserveTable" />
+                <span asp-validation-for="Date" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TimeFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="TimeFrom" class="col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TimeFrom, new { htmlAttributes = new { @class = "form-control", @step = "3600" } })
-                @Html.ValidationMessageFor(model => model.TimeFrom, "", new { @class = "text-danger" })
+                <input type="time" asp-for="TimeFrom" class="form-control" step="3600" />
+                <span asp-validation-for="TimeFrom" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TimeTo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="TimeTo" class="col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TimeTo, new { htmlAttributes = new { @class = "form-control", @step = "3600" } })
-                @Html.ValidationMessageFor(model => model.TimeTo, "", new { @class = "text-danger" })
+                <input type="time" asp-for="TimeTo" class="form-control" step="3600" />
+                <span asp-validation-for="TimeTo" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group row">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Reserve" class="btn btn-primary" />
+                <input type="submit" value="Reserve" class="btn btn-primary" style="width:90px"/>
+                <a asp-controller="tables" asp-action="index" class="btn btn-danger"  style="width:90px">Cancel</a>
             </div>
         </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
     </div>
 </form>

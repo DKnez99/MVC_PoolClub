@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,9 +29,9 @@ namespace PoolClub.Models.Services
             }
         }
 
-        public IEnumerable<Reservation> GetAllReservationsByTable(int id)
+        public IEnumerable<Reservation> GetAllReservationsByTableAfterDate(int id, System.DateTime date)
         {
-            return context.Reservations.Where(r => r.TableId == id);
+            return context.Reservations.Where(r => r.TableId == id && r.TimeFrom>date);
         }
 
         public IEnumerable<Table> GetAllTables()
@@ -41,6 +42,11 @@ namespace PoolClub.Models.Services
         public Table GetTable(int id)
         {
             return context.Tables.Find(id);
+        }
+
+        public IEnumerable<Reservation> GetAllReservations()
+        {
+            return context.Reservations.OrderByDescending(e=>e.TimeTo);
         }
     }
 }

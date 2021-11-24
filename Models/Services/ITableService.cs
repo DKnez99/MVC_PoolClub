@@ -9,7 +9,8 @@ namespace PoolClub.Models.Services
     {
         public IEnumerable<Table> GetAllTables();
         public Table GetTable(int id);
-        public IEnumerable<Reservation> GetAllReservationsByTable(int id);
+        public IEnumerable<Reservation> GetAllReservationsByTableAfterDate(int id, System.DateTime date);
         public Reservation AddReservation(Reservation res);
+        public IEnumerable<Reservation> GetAllReservations();
     }
 }

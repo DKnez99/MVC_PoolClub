@@ -394,3 +394,4 @@ E:\Programming\Random Stuff\PoolClub\bin\Debug\net5.0\Microsoft.AspNetCore.Ident
 E:\Programming\Random Stuff\PoolClub\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
 E:\Programming\Random Stuff\PoolClub\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
 E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Account\Login.cshtml.g.cs
+E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Reservations\Index.cshtml.g.cs

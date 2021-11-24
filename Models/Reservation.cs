@@ -12,13 +12,14 @@ namespace PoolClub.Models
         [Key]
         public int ReservationId { get; set; }
 
-        //[Required]
-        //public int UserId { get; set; }
+        [Required]
+        public string UserId { get; set; }
 
         [Required]
         public int TableId { get; set; }
 
         [Required]
+        [DataType(DataType.DateTime)]
         public System.DateTime TimeFrom { get; set; }
 
         [Required]

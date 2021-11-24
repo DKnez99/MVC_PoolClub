@@ -19,11 +19,13 @@ namespace PoolClub.ViewModels
         public System.DateTime Date { get; set; }
 
         [DataType(DataType.Time)]
+        [Display(Name ="Time From")]
         [Required]
         public System.DateTime TimeFrom { get; set; }
 
         [DataType(DataType.Time)]
         [Required]
+        [Display(Name = "Time To")]
         public System.DateTime TimeTo { get; set; }
     }
 }

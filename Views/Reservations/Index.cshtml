@@ -1,0 +1,44 @@
+﻿@model List<ReservationViewModel>
+@{
+    ViewData["Title"] = "Reservations";
+}
+<h1>@ViewData["Title"]</h1>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Table</th>
+            <th scope="col">Date</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var res in Model)
+        {
+            @if (res.Expired)
+            {
+                <tr class="text-danger" @*style="cursor:pointer" onclick="window.location = '/Reservations/Details/@res.Id'"*@>
+                    <th scope="row">@res.TableId</th>
+                    <td>@res.Date</td>
+                    <td>@res.TimeFrom</td>
+                    <td>@res.TimeTo</td>
+                     <td>@res.Email</td>
+                    <td>@res.PhoneNumber</td>
+                </tr>
+            }
+            else
+            {
+                <tr @*style="cursor:pointer" onclick="window.location = '/Reservations/Details/@res.Id'"*@>
+                    <th scope="row">@res.TableId</th>
+                    <td>@res.Date</td>
+                    <td>@res.TimeFrom</td>
+                    <td>@res.TimeTo</td>
+                    <td>@res.Email</td>
+                    <td>@res.PhoneNumber</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
