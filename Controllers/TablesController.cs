@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using PoolClub.Hubs;
 using PoolClub.Models;
 using PoolClub.Models.Services;
 using PoolClub.ViewModels;
@@ -15,15 +18,18 @@ namespace PoolClub.Controllers
     [Authorize]
     public class TablesController : Controller
     {
+        private readonly IHubContext<ReservationHub> hubContext;
         private readonly ILogger<TablesController> logger;
         private readonly ITableService tableService;
         private readonly UserManager<AppUser> userManager;
 
-        public TablesController(ILogger<TablesController> logger, ITableService tableService, UserManager<AppUser> userManager)
+        public TablesController(ILogger<TablesController> logger, ITableService tableService, UserManager<AppUser> userManager, IHubContext<ReservationHub> hubContext)
         {
             this.logger = logger;
             this.tableService = tableService;
             this.userManager = userManager;
+            this.hubContext = hubContext;
+            
         }
 
         [Authorize]
@@ -100,13 +106,42 @@ namespace PoolClub.Controllers
                             TimeTo = timeTo
                         };
 
-                        if (tableService.AddReservation(newRes) != null)
+                        var myReservation = tableService.AddReservation(newRes);
+                        if (myReservation != null)
                         {
+                            //make a reservation view model to send through hub to staff
+                            ReservationViewModel myresViewModel = new ReservationViewModel()
+                            {
+                                ReservationId = myReservation.ReservationId,
+                                Email = model.UserEmail,
+                                TableId = myReservation.TableId,
+                                PhoneNumber = user.PhoneNumber,
+                                Date = model.Date.ToShortDateString(),
+                                TimeFrom = model.TimeFrom.Hour + ":00",
+                                TimeTo = (model.TimeFrom.Hour == 0) ? "24:00" : model.TimeFrom.Hour + ":00"
+                            };
+
+                            //SEND THROUGH HUB
+
+                            //var messageJsonString = JsonConvert.SerializeObject(myresViewModel);
+                            //await hubContext.Clients.All.SendAsync("ReceiveReservation", messageJsonString);
+
+                            await hubContext.Clients.All.SendAsync("ReceiveReservation", new object[] {
+                                    myReservation.ReservationId,
+                                    model.UserEmail,
+                                    user.PhoneNumber,
+                                    myReservation.TableId,
+                                    model.Date.ToShortDateString(),
+                                    model.TimeFrom.Hour + ":00",
+                                    (model.TimeFrom.Hour == 0) ? "24:00" : model.TimeFrom.Hour + ":00",
+                                    false
+                                });
+
                             TempData["SuccessMsg"] = "You reserved table " + model.TableId + " successfuly.";
                             return RedirectToAction("Index", "Home");
                         }
                     }
-                    else        //if wanted reserve time overlaps with another reservation
+                    else        //if wanted reservation time overlaps with another reservation
                     {
                         ModelState.AddModelError("", "Another reservation already exists from "+alreadyReservedStart+":00 to "+alreadyReservedEnd+":00 on "+model.Date.ToShortDateString());
                     }

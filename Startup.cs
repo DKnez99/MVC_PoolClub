@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PoolClub.Hubs;
 using PoolClub.Models;
 using PoolClub.Models.Services;
 using System;
@@ -33,6 +34,10 @@ namespace PoolClub
                     Configuration.GetConnectionString("PoolClubDbContextConnection"));
             });
             services.AddControllersWithViews();
+            services.AddSignalR(options=> {
+                options.KeepAliveInterval = TimeSpan.FromSeconds(10);       //CHECK LATER
+                options.ClientTimeoutInterval = TimeSpan.FromSeconds(500);  //CHECK LATER
+            });
             services.AddScoped<IAppUserService, AppUserService>();
             services.AddScoped<ITableService, TableService>();
             services.AddIdentity<AppUser,IdentityRole>(options =>
@@ -61,15 +66,15 @@ namespace PoolClub
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ReservationHub>("/Hubs/Reservation");
             });
         }
     }

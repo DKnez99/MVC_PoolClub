@@ -24,7 +24,7 @@
                     <td>@res.Date</td>
                     <td>@res.TimeFrom</td>
                     <td>@res.TimeTo</td>
-                     <td>@res.Email</td>
+                    <td>@res.Email</td>
                     <td>@res.PhoneNumber</td>
                 </tr>
             }
@@ -42,3 +42,39 @@
         }
     </tbody>
 </table>
+<span id="connected">Not connected</span>
+<ul id="reservationList">
+</ul>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script type="text/javascript">
+    "use strict";
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/Hubs/Reservation").build();
+
+    //connection.on("ReceiveReservation", (reservation) => {
+    //    document.getElementById("connected").textContent = "Received";
+    //    let messageObject = JSON.parse(reservation);
+    //    var li = document.createElement("li");
+    //    document.getElementById("reservationList").appendChild(li);
+    //    var printout = JSON.parse(reservation);
+    //// We can assign user-supplied strings to an element's textContent because it
+    //// is not interpreted as markup. If you're assigning in any other way, you
+    //// should be aware of possible script injection concerns.
+    //    li.textContent = messageObject.UserEmail;
+    //});
+
+    connection.on("ReceiveReservation", (reservation) => {
+        document.getElementById("connected").textContent = "Received";
+        var li = document.createElement("li");
+        document.getElementById("reservationList").appendChild(li);
+        
+        li.textContent = reservation[0]+" "+reservation[1];
+    });
+
+    connection.start().then(function () {
+        document.getElementById("connected").textContent = "Connected";
+    }).catch(function (err) {
+    return console.error(err.toString());
+});
+</script>

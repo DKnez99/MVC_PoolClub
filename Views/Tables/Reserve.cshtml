@@ -16,8 +16,8 @@
 
         <hr />
 
-        <input type="hidden" asp-for="TableId" />
-        <input type="hidden" asp-for="UserEmail" />
+        <input id="tableId" type="hidden" asp-for="TableId"/>
+        <input type="hidden" asp-for="UserEmail" value=@Model.UserEmail/>
 
         <div class="form-group">
             <label asp-for="Date" class="col-md-2"></label>
@@ -45,10 +45,41 @@
 
         <div class="form-group row">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Reserve" class="btn btn-primary" style="width:90px"/>
+                <input type="submit" id="reserveButton" value="Reserve" class="btn btn-primary" style="width:90px"/>
                 <a asp-controller="tables" asp-action="index" class="btn btn-danger"  style="width:90px">Cancel</a>
             </div>
         </div>
         <div asp-validation-summary="All" class="text-danger"></div>
     </div>
 </form>
+<span id="userEmail">@Model.UserEmail</span><br />
+<span id="timeFrom">@Model.TimeFrom</span><br />
+<span id="timeTo">@Model.TimeTo</span><br />
+<span id="date">@Model.Date</span><br />
+<span id="tableId">@Model.TableId</span><br />
+<span id="connected">Not connected</span>
+
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script type="text/javascript">
+    "use strict";
+    datePickerReserveTable.min = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    var connection = new signalR.HubConnectionBuilder().withUrl("/Hubs/Reservation").build();
+
+    connection.start().then(function () {
+        document.getElementById("connected").textContent = "Connected";
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    document.getElementById("reserveButton").addEventListener("click", function (event) {
+        var msg = "hi from html";
+        connection.invoke("SendReservation", msg).then(function () {
+            document.getElementById("connected").textContent = msg;
+        }).catch(function (err) {
+            document.getElementById("connected").textContent = "Error";
+            return console.error(err.toString());
+        });
+       
+     });
+</script>
