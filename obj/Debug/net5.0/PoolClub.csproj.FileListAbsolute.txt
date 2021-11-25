@@ -396,3 +396,5 @@ E:\Programming\Random Stuff\PoolClub\bin\Debug\net5.0\refs\System.Runtime.Compil
 E:\Programming\Random Stuff\PoolClub\bin\Debug\net5.0\refs\System.Text.Encodings.Web.dll
 E:\Programming\Random Stuff\PoolClub\bin\Debug\net5.0\refs\System.Text.Json.dll
 E:\Programming\Random Stuff\PoolClub\bin\Debug\net5.0\refs\System.Threading.Channels.dll
+E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Reservations\Details.cshtml.g.cs
+E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Reservations\ReservationNotFound.cshtml.g.cs

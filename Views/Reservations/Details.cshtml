@@ -1,0 +1,28 @@
+﻿@model ReservationsDetailsViewModel
+@{
+    ViewData["Title"] = "Reservation Details";
+}
+
+<div class="card ">
+    <h4 class="card-header">@ViewData["Title"]</h4>
+    <div class="card-body">
+        <div class="card-text">
+            Id: @Model.ReservationId
+            <hr />
+            Name: @Model.UserFullName
+            <hr />
+            Email: @Model.UserEmail
+            <hr />
+            Phone: @Model.PhoneNumber
+            <hr />
+            Table No.:@Model.TableId
+            <hr />
+            Date:@Model.Date
+            <hr />
+            Time From: @Model.TimeFrom
+            <hr />
+            Time To: @Model.TimeTo
+        </div>
+    </div>
+</div>
+<a asp-controller="Reservations" asp-action="Index" class="btn btn-primary" style="margin-top:10px">Back</a>

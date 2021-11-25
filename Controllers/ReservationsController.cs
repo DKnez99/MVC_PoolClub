@@ -52,5 +52,29 @@ namespace PoolClub.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "Staff")]
+        public async Task<IActionResult> Details(int id)
+        {
+            Reservation res = tableService.GetReservation(id);  
+            if (res == null)
+            {
+                Response.StatusCode = 404;
+                return View("ReservationNotFound", id);
+            }
+            var user = await userManager.FindByIdAsync(res.UserId);
+            ReservationsDetailsViewModel model = new ReservationsDetailsViewModel()
+            {
+                ReservationId = id,
+                UserEmail = user.Email,
+                TableId = res.TableId,
+                Date = res.TimeFrom.Date.ToShortDateString(),
+                TimeFrom = res.TimeFrom.Hour + ":00",
+                TimeTo = (res.TimeTo.Hour == 0) ? "24:00" : res.TimeTo.Hour + ":00",
+                UserFullName = user.FirstName + " " + user.LastName,
+                PhoneNumber = user.PhoneNumber
+            };
+            return View(model);
+        }
     }
 }

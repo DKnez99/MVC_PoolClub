@@ -48,5 +48,10 @@ namespace PoolClub.Models.Services
         {
             return context.Reservations.OrderByDescending(e=>e.TimeTo);
         }
+
+        public Reservation GetReservation(int id)
+        {
+            return context.Reservations.Find(id);
+        }
     }
 }

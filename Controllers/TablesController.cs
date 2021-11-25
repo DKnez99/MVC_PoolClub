@@ -118,7 +118,7 @@ namespace PoolClub.Controllers
                                 PhoneNumber = user.PhoneNumber,
                                 Date = model.Date.ToShortDateString(),
                                 TimeFrom = model.TimeFrom.Hour + ":00",
-                                TimeTo = (model.TimeFrom.Hour == 0) ? "24:00" : model.TimeFrom.Hour + ":00"
+                                TimeTo = (model.TimeTo.Hour == 0) ? "24:00" : model.TimeFrom.Hour + ":00"
                             };
 
                             //SEND THROUGH HUB
@@ -133,7 +133,7 @@ namespace PoolClub.Controllers
                                     myReservation.TableId,
                                     model.Date.ToShortDateString(),
                                     model.TimeFrom.Hour + ":00",
-                                    (model.TimeFrom.Hour == 0) ? "24:00" : model.TimeFrom.Hour + ":00",
+                                    (model.TimeTo.Hour == 0) ? "24:00" : model.TimeFrom.Hour + ":00",
                                     false
                                 });
 
