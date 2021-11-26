@@ -45,9 +45,6 @@
         }
     </tbody>
 </table>
-@*<span id="connected">Not connected</span>
-    <ul id="reservationList">
-    </ul>*@
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 
@@ -61,7 +58,7 @@
         var tbodyRef = document.getElementById("reservationsTable").getElementsByTagName("tbody")[0];
 
         var newRow = tbodyRef.insertRow(0);
-        newRow.style.cursor = "pointer";
+        //newRow.style.cursor = "pointer";
         newRow.onclick = function (row) {
             return function () {
                 callback(row);
@@ -90,6 +87,15 @@
         var li = document.createElement("li");
         document.getElementById("reservationList").appendChild(li);
         //li.textContent = reservation[0] + " " + reservation[1] + " " + reservation[2] + " " + reservation[3] + " " + reservation[4] + " " + reservation[5] + " " + reservation[6];
+    });
+
+    connection.on("DeleteReservation", (reservationId) => {
+        var rows = document.getElementsByTagName("tr");
+        for (var i = rows.length; i--;) {
+            if (rows[i].cells[0].innerHTML==reservationId) {
+                rows[i].parentNode.removeChild(rows[i]);
+            }
+        }
     });
 
     //signalR start connection

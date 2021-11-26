@@ -1,0 +1,78 @@
+﻿@model List<ReservationViewModel>
+@{
+    ViewData["Title"] = "My Reservations";
+    var error = TempData["Error"] as string;
+    var success = TempData["Success"] as string;
+}
+<h1>@ViewData["Title"]</h1>
+@if (Model.Count > 0)
+{
+    @if (!String.IsNullOrEmpty(error))
+    {
+        <p class="alert alert-danger">@error</p>
+    }
+
+    @if (!String.IsNullOrEmpty(success))
+    {
+        <p class="alert alert-success">@success</p>
+    }
+    <table id="reservationsTable" class="table table-striped table-hover text-center">
+        <thead>
+            <tr>
+                <th style="display:none" scope="col">ReservationId</th>
+                <th style="width:10%" scope="col">Table</th>
+                <th style="width:30%" scope="col">Date</th>
+                <th style="width:20%" scope="col">From</th>
+                <th style="width:20%" scope="col">To</th>
+                <th style="width:20%" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var res in Model)
+            {
+                @if (res.Expired)
+                {
+                    <tr class="text-danger">
+                        <th style="display:none" scope="row">@res.ReservationId</th>
+                        <td>@res.TableId</td>
+                        <td>@res.Date</td>
+                        <td>@res.TimeFrom</td>
+                        <td>@res.TimeTo</td>
+                        <td></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <th style="display:none" scope="row">@res.ReservationId</th>
+                        <td>@res.TableId</td>
+                        <td>@res.Date</td>
+                        <td>@res.TimeFrom</td>
+                        <td>@res.TimeTo</td>
+                        <td>
+                            <form asp-controller="Reservations" asp-action="MyReservations" asp-route-ID=@res.ReservationId method="post">
+                                <button style="font-size:12.5px;" type="submit" class="btn btn-danger p-1 m-0">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <form asp-controller="Tables" asp-action="Index">
+        <button type="submit" class="btn btn-primary">
+            New
+        </button>
+    </form>
+}
+else
+{
+    <p>You have not made any reservations yet.</p>
+    <form asp-controller="Tables" asp-action="Index">
+        <button type="submit" class="btn btn-primary">
+            Make one
+        </button>
+    </form>
+}

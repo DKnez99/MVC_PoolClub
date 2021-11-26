@@ -19,31 +19,72 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
-                        </li>
+                        @if (!User.IsInRole("Staff"))
+                        {
+                            @*<li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>*@
+                            <li class="nav-item">
+                                <form asp-controller="Home" asp-action="Index" method="get">
+                                    <button type="submit" class="nav-link btn btn-link py-0">
+                                        Home
+                                    </button>
+                                </form>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Home" asp-action="Contact" method="get">
+                                    <button type="submit" class="nav-link btn btn-link py-0">
+                                        Contact
+                                    </button>
+                                </form>
+                            </li>
+                        }
+
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Staff"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                                <form asp-controller="Users" asp-action="Index" method="get">
+                                    <button type="submit" class="nav-link btn btn-link py-0">
+                                        Users
+                                    </button>
+                                </form>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Reservations</a>
+                                <form asp-controller="Reservations" asp-action="Index" method="get">
+                                    <button type="submit" class="nav-link btn btn-link py-0">
+                                        Reservations
+                                    </button>
+                                </form>
                             </li>
                         }
                         @if (signInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Tables" asp-action="Index">Tables</a>
+                                <form asp-controller="Tables" asp-action="Index" method="get">
+                                    <button type="submit" class="nav-link btn btn-link py-0">
+                                        Tables
+                                    </button>
+                                </form>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Reservations" asp-action="MyReservations" method="get">
+                                    <button type="submit" class="nav-link btn btn-link py-0">
+                                        My Reservations
+                                    </button>
+                                </form>
                             </li>
                         }
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         @if (signInManager.IsSignedIn(User))
                         {
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="MyAccount" method="get">
+                                <button type="submit" class="nav-link btn btn-link py-0">
+                                    Account
+                                </button>
+                            </form>
+                        </li>
                             <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post">
                                     <button type="submit" class="nav-link btn btn-link py-0">

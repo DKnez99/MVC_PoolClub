@@ -1,0 +1,26 @@
+﻿@model AppUser
+@{
+    ViewData["Title"] = "Account Details";
+}
+@if (Model != null)
+{
+    <h1>@ViewData["Title"]</h1>
+    <div class="card ">
+        <h4 class="card-header">@ViewData["Title"]</h4>
+        <div class="card-body">
+            <div class="card-text">
+                Id: @Model.Id
+                <hr />
+                Name: @Model.FirstName @Model.LastName
+                <hr />
+                Email: @Model.Email
+                <hr />
+                Phone: @Model.PhoneNumber
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p class="alert alert-danger">Error. User doesn't exist.</p>
+}

@@ -68,8 +68,17 @@
     let timeFrom = document.getElementById("timeFrom");
     let timeTo = document.getElementById("timeTo");
 
+    if (timeFrom.value < "14:00")
+        timeFrom.value = "14:00";
+
+    if (timeTo.value < "15:00" && timeTo.value!="00:00")
+        timeTo.value = "15:00";
+
     timeFrom.addEventListener('input', () => {
-        console.log(timeFrom.value);
+        if (timeFrom.value < "14:00") {
+            timeFrom.value = "14:00";
+            timeTo.value = "15:00";
+        }
         if (timeFrom.value > timeTo.value && timeTo.value != "00:00") {
             timeTo.value = timeFrom.value;
             timeTo.min = timeFrom.value;
@@ -77,6 +86,10 @@
     });
 
     timeTo.addEventListener('input', () => {
+        if (timeTo.value < "15:00" && timeTo.value != "00:00") {
+            timeTo.value = "15:00";
+            timeFrom.value = "14:00";
+        }
         if (timeTo.value < timeFrom.value && timeTo.value != "00:00") {
             timeFrom.value = timeTo.value;
             timeFrom.max = timeTo.value;

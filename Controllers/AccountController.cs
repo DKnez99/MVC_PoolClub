@@ -52,11 +52,11 @@ namespace PoolClub.Controllers
                     PhoneNumberConfirmed=true
                 };
 
-                var result = await userManager.CreateAsync(user, model.Password);
+                var result = await userManager.CreateAsync(user, model.Password);       //create new user in database with hashed password
 
                 if (result.Succeeded)
                 {
-                    //await signInManager.SignInAsync(user, isPersistent:false);
+                    //await signInManager.SignInAsync(user, isPersistent:false); //if we want to automatically log in after registering
                     var newlyCreatedUser = await userManager.FindByNameAsync(model.Email);
                     await userManager.AddToRoleAsync(newlyCreatedUser, "Visitor");      //automatically add new users to visitors
                     TempData["SuccessMsg"] = "New account created. Now you can log in.";
@@ -87,7 +87,7 @@ namespace PoolClub.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    if (!string.IsNullOrEmpty(returnUrl))           //check if we were redirected
                         return LocalRedirect(returnUrl);
                     else
                         return RedirectToAction("Index", "Home");
@@ -103,6 +103,17 @@ namespace PoolClub.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> MyAccount()
+        {
+            AppUser appUser = await userManager.FindByNameAsync(User.Identity.Name);    //find user by username (email in our case)
+            return View(appUser);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

@@ -13,5 +13,7 @@ namespace PoolClub.Models.Services
         public Reservation AddReservation(Reservation res);
         public IEnumerable<Reservation> GetAllReservations();
         public Reservation GetReservation(int id);
+        public IEnumerable<Reservation> GetAllReservationsByUserId(string id);
+        public Reservation DeleteReservation(int id);
     }
 }

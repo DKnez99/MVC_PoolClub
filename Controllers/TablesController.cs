@@ -29,7 +29,6 @@ namespace PoolClub.Controllers
             this.tableService = tableService;
             this.userManager = userManager;
             this.hubContext = hubContext;
-            
         }
 
         [Authorize]
@@ -49,7 +48,7 @@ namespace PoolClub.Controllers
                 Response.StatusCode = 404;
                 return View("TableNotFound", id);
             }
-            var time = System.DateTime.MinValue.AddHours(System.DateTime.Now.Hour+1);
+            var time = System.DateTime.MinValue.AddHours(System.DateTime.Now.Hour+1);   //on page load set timeFrom to next full hour
 
             TablesReservationViewModel model = new TablesReservationViewModel()
             {
@@ -78,7 +77,7 @@ namespace PoolClub.Controllers
             {
                 var user = await userManager.FindByEmailAsync(model.UserEmail);
                 DateTime timeFrom = model.Date.AddHours(model.TimeFrom.Hour);
-                DateTime timeTo = model.Date.AddHours((model.TimeTo.Hour==0)?24:model.TimeTo.Hour); //why isnt this working?
+                DateTime timeTo = model.Date.AddHours((model.TimeTo.Hour==0)?24:model.TimeTo.Hour); //12AM goes to database as 00:00 the next day
                 if (timeFrom<timeTo && timeFrom>DateTime.Now)
                 {
                     var reservations = tableService.GetAllReservationsByTableAfterDate(model.TableId, model.Date);
@@ -109,23 +108,8 @@ namespace PoolClub.Controllers
                         var myReservation = tableService.AddReservation(newRes);
                         if (myReservation != null)
                         {
-                            //make a reservation view model to send through hub to staff
-                            ReservationViewModel myresViewModel = new ReservationViewModel()
-                            {
-                                ReservationId = myReservation.ReservationId,
-                                Email = model.UserEmail,
-                                TableId = myReservation.TableId,
-                                PhoneNumber = user.PhoneNumber,
-                                Date = model.Date.ToShortDateString(),
-                                TimeFrom = model.TimeFrom.Hour + ":00",
-                                TimeTo = (model.TimeTo.Hour == 0) ? "24:00" : model.TimeFrom.Hour + ":00"
-                            };
 
-                            //SEND THROUGH HUB
-
-                            //var messageJsonString = JsonConvert.SerializeObject(myresViewModel);
-                            //await hubContext.Clients.All.SendAsync("ReceiveReservation", messageJsonString);
-
+                            //send through hub
                             await hubContext.Clients.All.SendAsync("ReceiveReservation", new object[] {
                                     myReservation.ReservationId,
                                     model.UserEmail,
@@ -133,7 +117,7 @@ namespace PoolClub.Controllers
                                     myReservation.TableId,
                                     model.Date.ToShortDateString(),
                                     model.TimeFrom.Hour + ":00",
-                                    (model.TimeTo.Hour == 0) ? "24:00" : model.TimeFrom.Hour + ":00",
+                                    (model.TimeTo.Hour == 0) ? "24:00" : model.TimeTo.Hour + ":00",   //display 12AM as 24:00 of the same day
                                     false
                                 });
 
@@ -146,7 +130,7 @@ namespace PoolClub.Controllers
                         ModelState.AddModelError("", "Another reservation already exists from "+alreadyReservedStart+":00 to "+alreadyReservedEnd+":00 on "+model.Date.ToShortDateString());
                     }
                 }
-                else
+                else            //if time from and time to are not valid
                 {
                     ModelState.AddModelError("", "We don't serve time travelers.");
                 }

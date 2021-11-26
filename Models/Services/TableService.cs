@@ -46,12 +46,28 @@ namespace PoolClub.Models.Services
 
         public IEnumerable<Reservation> GetAllReservations()
         {
-            return context.Reservations.OrderByDescending(e=>e.TimeTo);
+            return context.Reservations.OrderByDescending(e=>e.TimeFrom);
         }
 
         public Reservation GetReservation(int id)
         {
             return context.Reservations.Find(id);
+        }
+
+        public IEnumerable<Reservation> GetAllReservationsByUserId(string id)
+        {
+            return context.Reservations.Where(r => r.UserId == id).OrderByDescending(r=>r.TimeFrom);
+        }
+
+        public Reservation DeleteReservation(int id)
+        {
+            Reservation res = context.Reservations.Find(id);
+            if (res != null)
+            {
+                context.Reservations.Remove(res);
+                context.SaveChanges();
+            }
+            return res;
         }
     }
 }

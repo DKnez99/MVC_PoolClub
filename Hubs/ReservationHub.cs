@@ -10,10 +10,10 @@ namespace PoolClub.Hubs
 {
     public class ReservationHub : Hub
     {
-        public async Task SendReservation(ReservationViewModel reservationViewModel)
-        {
-            var messageJsonString = JsonConvert.SerializeObject(reservationViewModel);
-            await Clients.All.SendAsync("ReceiveReservation", messageJsonString);
-        }
+        //public async Task SendReservation(ReservationViewModel reservationViewModel)
+        //{
+        //    var messageJsonString = JsonConvert.SerializeObject(reservationViewModel);
+        //    await Clients.All.SendAsync("ReceiveReservation", messageJsonString);
+        //}
     }
 }
