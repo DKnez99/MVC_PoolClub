@@ -58,19 +58,17 @@
         var tbodyRef = document.getElementById("reservationsTable").getElementsByTagName("tbody")[0];
 
         var newRow = tbodyRef.insertRow(0);
-        //newRow.style.cursor = "pointer";
-        newRow.onclick = function (row) {
-            return function () {
-                callback(row);
-            };
-        }(newRow);
-        //newRow.onclick = "window.location = '/Reservations/Details/" + reservation[0] + "'";
-        //newRow.onclick = "window.location = '/Home/Index'";
+        newRow.style.cursor = "pointer";
         var headerCell = document.createElement("TH");
         headerCell.innerHTML = reservation[0];
         headerCell.style.display = 'none';
         newRow.appendChild(headerCell);
-
+        newRow.onclick = function () {
+                var value = newRow.getElementsByTagName("th")[0].innerHTML;
+                console.log("/Reservations/Details/" + value);
+                window.location = "/Reservations/Details/" + value;
+        };
+        
         var cell1 = newRow.insertCell();
         cell1.innerHTML = reservation[3];
         var cell2 = newRow.insertCell();
@@ -83,9 +81,9 @@
         cell5.innerHTML = reservation[1];
         var cell6 = newRow.insertCell();
         cell6.innerHTML = reservation[2];
-        document.getElementById("connected").textContent = "Received";
-        var li = document.createElement("li");
-        document.getElementById("reservationList").appendChild(li);
+        /*document.getElementById("connected").textContent = "Received";*/
+        //var li = document.createElement("li");
+        //document.getElementById("reservationList").appendChild(li);
         //li.textContent = reservation[0] + " " + reservation[1] + " " + reservation[2] + " " + reservation[3] + " " + reservation[4] + " " + reservation[5] + " " + reservation[6];
     });
 
@@ -125,4 +123,5 @@
         console.log("/Reservations/Details/" + value);
         window.location = "/Reservations/Details/" + value;
     });
+
 </script>

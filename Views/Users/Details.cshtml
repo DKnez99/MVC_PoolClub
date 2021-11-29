@@ -1,19 +1,26 @@
-﻿@model AppUser
+﻿@model UsersDetailsViewModel
 @{
-    ViewData["Title"]= "User Details";
+    ViewData["Title"] = "User Details";
 }
 
 <div class="card ">
     <h4 class="card-header">@ViewData["Title"]</h4>
     <div class="card-body">
         <div class="card-text">
-            Id: @Model.Id
+            Name: @Model.AppUser.FirstName @Model.AppUser.LastName
             <hr />
-            Name: @Model.FirstName @Model.LastName
+            Email: @Model.AppUser.Email
             <hr />
-            Email: @Model.Email
+            Phone: @Model.AppUser.PhoneNumber
             <hr />
-            Phone: @Model.PhoneNumber
+            Roles:
+            @if (Model.Roles.Count > 0)
+            {
+                @foreach(var role in Model.Roles)
+                {
+                    @role
+                }
+            }
         </div>
     </div>
 </div>

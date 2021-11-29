@@ -9,6 +9,6 @@ namespace PoolClub.ViewModels
     public class UsersDetailsViewModel
     {
         public AppUser AppUser { get; set; }
-        public string PageTitle { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

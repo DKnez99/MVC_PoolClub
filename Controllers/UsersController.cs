@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PoolClub.Models;
@@ -15,11 +16,15 @@ namespace PoolClub.Controllers
     {
         private readonly ILogger<UsersController> logger;
         private readonly IAppUserService appUserService;
+        private readonly UserManager<AppUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public UsersController(ILogger<UsersController> logger, IAppUserService appUserService)
+        public UsersController(ILogger<UsersController> logger, IAppUserService appUserService, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.logger = logger;
             this.appUserService = appUserService;
+            this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
         [Authorize(Roles ="Staff")]
@@ -30,15 +35,24 @@ namespace PoolClub.Controllers
         }
 
         [Authorize(Roles = "Staff")]
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            AppUser appUser = appUserService.GetAppUser(id);
-            if (appUser == null)
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
             {
                 Response.StatusCode = 404;
                 return View("UserNotFound", id);
             }
-            return View(appUser);
+            else
+            {
+                var roles = await userManager.GetRolesAsync(user);
+                UsersDetailsViewModel model = new UsersDetailsViewModel()
+                {
+                    AppUser = user,
+                    Roles = roles
+                };
+                return View(model);
+            }       
         }
     }
 }
