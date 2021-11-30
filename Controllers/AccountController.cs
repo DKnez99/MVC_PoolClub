@@ -115,5 +115,85 @@ namespace PoolClub.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditAccount(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                Response.StatusCode = 404;
+                return View("UserNotFound", id);
+            }
+            if (User.Identity.Name != user.Email)
+            {
+                return View("AccessDenied");
+            }
+            
+            AccountEditViewModel model = new AccountEditViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAccount(AccountEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                Response.StatusCode = 404;
+                return View("UserNotFound", model.Id);
+            }
+            String password = model.Password;
+            var hasher = new PasswordHasher<AppUser>();
+            if (hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password)== PasswordVerificationResult.Failed) //compare DB password with entered old password
+            {
+                ModelState.AddModelError("", "Password is incorrect.");
+                return View(model);
+            }
+            if (model.NewPassword!=null) //if user entered new password
+            {
+                password = model.NewPassword;
+                await signInManager.SignOutAsync(); //check
+            }
+
+            if (user.Email != model.Email)
+            {
+                await signInManager.SignOutAsync(); //check
+            }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.PasswordHash = hasher.HashPassword(user, password);
+            user.UserName = model.Email;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+
+            var result = await userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                TempData["SuccessMsg"] = "Changes saved.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
     }
 }

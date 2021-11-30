@@ -59,6 +59,7 @@
 
         var newRow = tbodyRef.insertRow(0);
         newRow.style.cursor = "pointer";
+        newRow.classList.add("text-primary");
         var headerCell = document.createElement("TH");
         headerCell.innerHTML = reservation[0];
         headerCell.style.display = 'none';
@@ -114,6 +115,7 @@
                     callback(row);
                 };
             }(table.rows[i]);
+            
         }
     };
 

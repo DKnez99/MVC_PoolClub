@@ -401,3 +401,5 @@ E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Reservations\R
 E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Reservations\MyReservations.cshtml.g.cs
 E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Account\MyAccount.cshtml.g.cs
 E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Account\AccessDenied.cshtml.g.cs
+E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Account\EditAccount.cshtml.g.cs
+E:\Programming\Random Stuff\PoolClub\obj\Debug\net5.0\Razor\Views\Account\UserNotFound.cshtml.g.cs

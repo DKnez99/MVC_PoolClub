@@ -9,16 +9,16 @@
         <h4 class="card-header">@ViewData["Title"]</h4>
         <div class="card-body">
             <div class="card-text">
-                Id: @Model.Id
-                <hr />
                 Name: @Model.FirstName @Model.LastName
                 <hr />
                 Email: @Model.Email
                 <hr />
                 Phone: @Model.PhoneNumber
+
             </div>
         </div>
     </div>
+    <a asp-action="EditAccount" asp-controller="Account" asp-route-ID="@Model.Id" class="btn btn-primary" style="margin-top:10px;">Edit</a>
 }
 else
 {
