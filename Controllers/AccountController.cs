@@ -84,7 +84,6 @@ namespace PoolClub.Controllers
 
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,
                                                     model.IsPersistent, lockoutOnFailure: false);
-
                 if (result.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(returnUrl))           //check if we were redirected
@@ -177,7 +176,9 @@ namespace PoolClub.Controllers
             user.LastName = model.LastName;
             user.PasswordHash = hasher.HashPassword(user, password);
             user.UserName = model.Email;
+            user.NormalizedUserName = model.Email.ToUpper();
             user.Email = model.Email;
+            user.NormalizedEmail = model.Email.ToUpper();
             user.PhoneNumber = model.PhoneNumber;
 
             var result = await userManager.UpdateAsync(user);

@@ -90,7 +90,7 @@ namespace PoolClub.Controllers
                         {
                             alreadyReserved = true;
                             alreadyReservedStart = res.TimeFrom.Hour;
-                            alreadyReservedEnd=res.TimeTo.Hour;
+                            alreadyReservedEnd=(res.TimeTo.Hour==0)?24:res.TimeTo.Hour;
                             break;
                         }
                     }

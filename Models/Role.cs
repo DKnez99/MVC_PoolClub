@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PoolClub.Models
 {
-    public class Role
+    public class Role   //not used anywhere
     {
         public Role()
         {

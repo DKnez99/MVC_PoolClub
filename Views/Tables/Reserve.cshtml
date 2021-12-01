@@ -30,7 +30,8 @@
         <div class="form-group">
             <label asp-for="TimeFrom" class="col-md-2"></label>
             <div class="col-md-10">
-                <input id="timeFrom" type="time" asp-for="TimeFrom" class="form-control" step="3600" />
+                <input id="timeFrom" type="time" asp-for="TimeFrom" class="form-control" step="3600" aria-describedby="timeFromHelp"/>
+                <small id="timeFromHelp" class="form-text text-muted">Valid hours: 14:00-23:00</small>
                 <span asp-validation-for="TimeFrom" class="text-danger"></span>
             </div>
         </div>
@@ -38,7 +39,8 @@
         <div class="form-group">
             <label asp-for="TimeTo" class="col-md-2"></label>
             <div class="col-md-10">
-                <input id="timeTo" type="time" asp-for="TimeTo" class="form-control" step="3600" />
+                <input id="timeTo" type="time" asp-for="TimeTo" class="form-control" step="3600" aria-describedby="timeToHelp"/>
+                <small id="timeToHelp" class="form-text text-muted">Valid hours: 15:00-24:00</small>
                 <span asp-validation-for="TimeTo" class="text-danger"></span>
             </div>
         </div>
@@ -77,22 +79,22 @@
     timeFrom.addEventListener('input', () => {
         if (timeFrom.value < "14:00") {
             timeFrom.value = "14:00";
-            timeTo.value = "15:00";
+            /*timeTo.value = "15:00";*/
         }
         if (timeFrom.value > timeTo.value && timeTo.value != "00:00") {
             timeTo.value = timeFrom.value;
-            timeTo.min = timeFrom.value;
+            /*timeTo.min = timeFrom.value;*/
         }
     });
 
     timeTo.addEventListener('input', () => {
         if (timeTo.value < "15:00" && timeTo.value != "00:00") {
             timeTo.value = "15:00";
-            timeFrom.value = "14:00";
+            /*timeFrom.value = "14:00";*/
         }
         if (timeTo.value < timeFrom.value && timeTo.value != "00:00") {
             timeFrom.value = timeTo.value;
-            timeFrom.max = timeTo.value;
+            /*timeFrom.max = timeTo.value;*/
         }
     });
     //var connection = new signalR.HubConnectionBuilder().withUrl("/Hubs/Reservation").build();

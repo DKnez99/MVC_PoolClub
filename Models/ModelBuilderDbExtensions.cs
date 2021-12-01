@@ -35,7 +35,7 @@ namespace PoolClub.Models
                     LastName = "Spencer",
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
-                    SecurityStamp = Guid.NewGuid().ToString("D")
+                    SecurityStamp = Guid.NewGuid().ToString()
                 }
             );
 
